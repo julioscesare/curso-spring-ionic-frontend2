@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,6 +27,13 @@ public class Categoria implements Serializable{
 	private String nome;
 	
 	
+	
+	// para evitar problemas de referência circular, onde Categorias carregam os produtos e Produtos carregam Categorias,
+	// é necessário adicinoar a anotação @JsonManagerReference aqui para informar que a Classe Categoria deve carregar os
+	// seus produtos. Já na Classe de Produtos, deve ser adicionada a anotação @JsonBackReference para informar que as
+	// os produtos já foram carregados a partir de outra Classe, nesse caso a classe Categoria, e não deve ser mais buscados.
+	
+	@JsonManagedReference	
 	@ManyToMany(mappedBy="categorias")
 	private List<Produto> produtos = new ArrayList<>();
 	

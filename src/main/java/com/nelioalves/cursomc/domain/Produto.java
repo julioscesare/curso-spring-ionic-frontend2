@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,6 +33,12 @@ public class Produto implements Serializable{
 	//nome das colunas que serão chaves estrangeiras para as tabelas Produto e Categoria 
 	//(produto_id e categoria_id) respectivamente.
 	
+	
+	// A anotação @JsonBackReference deve ser adicionada para informar que os produtos já foram carregados a partir de outra Classe, 
+	// nesse caso a classe Categoria já fez o carregamento dos produtos e não deve ser mais buscados.
+		
+	
+	@JsonBackReference
 	@ManyToMany
 	@JoinTable(name = "PRODUTO_CATEGORIA",
 		joinColumns = @JoinColumn(name = "produto_id"),
