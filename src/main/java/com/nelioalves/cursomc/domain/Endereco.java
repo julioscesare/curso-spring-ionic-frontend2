@@ -3,6 +3,8 @@ package com.nelioalves.cursomc.domain;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,6 +25,7 @@ public class Endereco implements Serializable{
 	private String bairro;
 	private String cep;
 	
+	@JsonBackReference //A Classe Endereço não deve carregar os dados da classe Cliente. Essa anotação evita a Serialização Ciclíca do Json.
 	@ManyToOne()
 	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
@@ -45,7 +48,7 @@ public class Endereco implements Serializable{
 		this.bairro = bairro;
 		this.cep = cep;
 		this.cliente = cliente;
-		this.cidade = cidade;
+		this.setCidade(cidade);
 	}
 
 	public Integer getId() {
