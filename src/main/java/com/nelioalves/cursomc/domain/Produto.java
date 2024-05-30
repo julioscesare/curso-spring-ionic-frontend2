@@ -8,6 +8,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,6 +33,7 @@ public class Produto implements Serializable{
 	/**
 	Utilizamos um tipo de coleção da classe "Set" para garantir que não tenhamos itens duplicados. Pois, essa classe não permite itens duplicados 
 	**/
+	@JsonIgnore
 	@OneToMany(mappedBy = "id.produto")
 	private Set<ItemPedido> itens = new HashSet<>();
 		
@@ -71,7 +73,7 @@ public class Produto implements Serializable{
 
 	
 	
-	
+	@JsonIgnore
 	public List<Pedido> getPedidos(){
 		
 		List<Pedido> lista = new ArrayList<>();
