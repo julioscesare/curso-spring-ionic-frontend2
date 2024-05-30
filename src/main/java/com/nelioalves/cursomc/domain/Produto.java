@@ -2,8 +2,10 @@ package com.nelioalves.cursomc.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -14,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Produto implements Serializable{
@@ -25,8 +28,15 @@ public class Produto implements Serializable{
 	private String nome;
 	private Double preco;
 	
+		
+	/**
+	Utilizamos um tipo de coleção da classe "Set" para garantir que não tenhamos itens duplicados. Pois, essa classe não permite itens duplicados 
+	**/
+	@OneToMany(mappedBy = "id.produto")
+	private Set<ItemPedido> itens = new HashSet<>();
+		
 	
-	//A anoteção @ManyToMany serve para indicar a associação de muitos para muitos em duas tabelas
+	//A anotação @ManyToMany serve para indicar a associação de muitos para muitos em duas tabelas
 	//no caso em questão, aqui está indicando a associação n:m das tabelas Produto e Categoria
 	//Já a anotação @JoinTable serve para indicar a criação da terceira tabela que é resultado 
 	//da associação n:m com seus devidos atributos: Nome da terceira tabela (PRODUTO_CATEGORIA);
@@ -59,6 +69,21 @@ public class Produto implements Serializable{
 		this.preco = preco;
 	}
 
+	
+	
+	
+	public List<Pedido> getPedidos(){
+		
+		List<Pedido> lista = new ArrayList<>();
+		
+		for(ItemPedido x : itens) {
+			lista.add(x.getPedido());
+		}
+		return lista;
+	}
+	
+		
+	
 	public Integer getId() {
 		return id;
 	}
@@ -92,6 +117,15 @@ public class Produto implements Serializable{
 		this.categorias = categorias;
 	}
 
+	public Set<ItemPedido> getItens() {
+		return itens;
+	}
+
+	public void setItens(Set<ItemPedido> itens) {
+		this.itens = itens;
+	}
+	
+		
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -108,7 +142,6 @@ public class Produto implements Serializable{
 		Produto other = (Produto) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
+
 	
 }
