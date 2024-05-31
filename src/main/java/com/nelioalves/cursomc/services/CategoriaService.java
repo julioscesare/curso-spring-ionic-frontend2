@@ -3,10 +3,12 @@ package com.nelioalves.cursomc.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.nelioalves.cursomc.domain.Categoria;
 import com.nelioalves.cursomc.repositories.CategoriaRepository;
+import com.nelioalves.cursomc.services.exceptions.DataIntegrityException;
 import com.nelioalves.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -51,5 +53,20 @@ public class CategoriaService {
 		//insere uma Categoria nova.
 		return repo.save(obj);
 	}
+	
+	
+	/**
+	 * Método utilizado para deletar uma Categoria a partir do seu Id
+	 * @param id
+	 */
+	public void deleteById(Integer id) {
+		try {
+			repo.deleteById(id);
+		}catch(DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possível excluir uma Categoria que contém produtos.");
+		}
+	}
+	
+	
 		
 }
