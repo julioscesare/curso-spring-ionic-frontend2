@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.nelioalves.cursomc.domain.Cliente;
 import com.nelioalves.cursomc.dto.ClienteDTO;
+import com.nelioalves.cursomc.dto.ClienteNewDTO;
 import com.nelioalves.cursomc.services.ClienteService;
 
 import jakarta.validation.Valid;
@@ -38,13 +39,25 @@ public class ClienteResource {
 		return ResponseEntity.ok().body(obj);		
 	}
 	
+//	@PostMapping
+//	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteDTO objDto){
+//		
+//		Cliente obj = service.fromDTO(objDto);
+//		obj = service.insert(obj);
+//		
+//		//Este comando retorna a URI com o novo Id criado. Ou seja, obtem a URL do novo recurso que foi inserido
+//		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+//		
+//		return ResponseEntity.created(uri).build();
+//	}
+
+	
 	@PostMapping
-	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteDTO objDto){
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto){
 		
 		Cliente obj = service.fromDTO(objDto);
 		obj = service.insert(obj);
 		
-		//Este comando retorna a URI com o novo Id criado. Ou seja, obtem a URL do novo recurso que foi inserido
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		
 		return ResponseEntity.created(uri).build();
